@@ -250,7 +250,10 @@ var AuthService = /** @class */ (function () {
         }));
     };
     AuthService.prototype.logout = function () {
-        this.removeSession();
+        //this.removeSession();
+        localStorage.removeItem('x-access-token');
+        localStorage.removeItem('x-refresh-token');
+        localStorage.removeItem('user-id');
         this.router.navigate(['/login']);
     };
     AuthService.prototype.getAccessToken = function () {
@@ -739,7 +742,7 @@ var SignupPageComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"centered-content\">\n  <div class=\"task-manager-container\">\n\n    <div class=\"sidebar has-background-white\">\n      <h1 class=\"title has-text-primary\">\n        Lists\n      </h1>\n\n      <div class=\"list-menu\">\n        <a class=\"list-menu-item\" *ngFor=\"let list of lists\" [routerLink]=\"['/lists', list._id]\" routerLinkActive=\"is-active\">\n          <p>{{ list.title }}</p>\n        </a>\n\n      </div>\n\n      <button class=\"button is-primary has-text-white\" routerLink=\"/new-list\">+ New List</button>\n\n    </div>\n\n    <div class=\"task-list-container has-background-light\">\n      <div *ngIf=\"tasks\">\n        <div class=\"top-bar\">\n          <h1 class=\"title has-text-primary\">\n            Tasks\n          </h1>\n          <div class=\"dropdown is-hoverable is-right\">\n            <div class=\"dropdown-trigger\">\n              <button class=\"button\" aria-haspopup=\"true\" aria-controls=\"dropdown-menu4\">\n                <span class=\"icon is-small\">\n                  <i class=\"fas fa-cog\" aria-hidden=\"true\"></i>\n                </span>\n              </button>\n            </div>\n            <div class=\"dropdown-menu\" id=\"dropdown-menu4\" role=\"menu\">\n              <div class=\"dropdown-content\">\n                <a [routerLink]=\"['/edit-list', selectedListId]\" class=\"dropdown-item\">\n                  Edit\n                </a>\n                <a (click)=\"onDeleteListClick()\" class=\"dropdown-item has-text-danger\">\n                  Delete\n                </a>\n              </div>\n            </div>\n          </div>\n        </div>\n\n        <!-- Task Elements -->\n        <div class=\"task\" *ngFor=\"let task of tasks\" (click)=\"onTaskClick(task)\" [ngClass]=\"{ 'completed': task.completed }\">\n          <div class=\"task-text\">\n            <p>{{ task.title }}</p>\n          </div>\n          <div class=\"task-buttons\">\n\n            <button class=\"button\" [routerLink]=\"['/lists', selectedListId, 'edit-task', task._id]\">\n              <div class=\"icon\">\n                <i class=\"fas fa-edit\"></i>\n              </div>\n            </button>\n\n            <button class=\"button is-danger\" (click)=\"onDeleteTaskClick(task._id)\" style=\"margin-left: 10px;\">\n              <div class=\"icon\">\n                <i class=\"fas fa-trash\"></i>\n              </div>\n            </button>\n\n          </div>\n        </div>\n\n        <h3 class=\"empty-state-text\" *ngIf=\"tasks.length === 0\">There are no tasks here! Click the add button to create\n          a new task.</h3>\n\n        <button routerLink=\"./new-task\" class=\"circle-add-button button is-primary\">\n          <img src=\"../../../assets/plus-icon.svg\" class=\"has-text-white\">\n        </button>\n      </div>\n\n      <div *ngIf=\"!tasks\">\n        <h3 class=\"empty-state-text\">Please select a list from the sidebar</h3>\n      </div>\n\n    </div>\n\n  </div>\n</div>"
+module.exports = "<div class=\"centered-content\">\n  <div class=\"task-manager-container\">\n\n    <div class=\"sidebar has-background-white\">\n      <h1 class=\"title has-text-primary\">\n        Lists\n      </h1>\n\n      <div class=\"list-menu\">\n        <a class=\"list-menu-item\" *ngFor=\"let list of lists\" [routerLink]=\"['/lists', list._id]\" routerLinkActive=\"is-active\">\n          <p>{{ list.title }}</p>\n        </a>\n\n      </div>\n\n      <button class=\"button is-primary has-text-white\" routerLink=\"/new-list\">+ New List</button>\n      <button class=\"button is-danger has-text-white\" (click)=\"onLogoutButtonClicked()\">Log out</button>\n\n    </div>\n\n    <div class=\"task-list-container has-background-light\">\n      <div *ngIf=\"tasks\">\n        <div class=\"top-bar\">\n          <h1 class=\"title has-text-primary\">\n            Tasks\n          </h1>\n          <div class=\"dropdown is-hoverable is-right\">\n            <div class=\"dropdown-trigger\">\n              <button class=\"button\" aria-haspopup=\"true\" aria-controls=\"dropdown-menu4\">\n                <span class=\"icon is-small\">\n                  <i class=\"fas fa-cog\" aria-hidden=\"true\"></i>\n                </span>\n              </button>\n            </div>\n            <div class=\"dropdown-menu\" id=\"dropdown-menu4\" role=\"menu\">\n              <div class=\"dropdown-content\">\n                <a [routerLink]=\"['/edit-list', selectedListId]\" class=\"dropdown-item\">\n                  Edit\n                </a>\n                <a (click)=\"onDeleteListClick()\" class=\"dropdown-item has-text-danger\">\n                  Delete\n                </a>\n              </div>\n            </div>\n          </div>\n        </div>\n\n        <!-- Task Elements -->\n        <div class=\"task\" *ngFor=\"let task of tasks\" (click)=\"onTaskClick(task)\" [ngClass]=\"{ 'completed': task.completed }\">\n          <div class=\"task-text\">\n            <p>{{ task.title }}</p>\n          </div>\n          <div class=\"task-buttons\">\n\n            <button class=\"button\" [routerLink]=\"['/lists', selectedListId, 'edit-task', task._id]\">\n              <div class=\"icon\">\n                <i class=\"fas fa-edit\"></i>\n              </div>\n            </button>\n\n            <button class=\"button is-danger\" (click)=\"onDeleteTaskClick(task._id)\" style=\"margin-left: 10px;\">\n              <div class=\"icon\">\n                <i class=\"fas fa-trash\"></i>\n              </div>\n            </button>\n\n          </div>\n        </div>\n\n        <h3 class=\"empty-state-text\" *ngIf=\"tasks.length === 0\">There are no tasks here! Click the add button to create\n          a new task.</h3>\n\n        <button routerLink=\"./new-task\" class=\"circle-add-button button is-primary\">\n          <img src=\"../../../assets/plus-icon.svg\" class=\"has-text-white\">\n        </button>\n      </div>\n\n      <div *ngIf=\"!tasks\">\n        <h3 class=\"empty-state-text\">Please select a list from the sidebar</h3>\n      </div>\n\n    </div>\n\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -768,15 +771,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var src_app_task_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/task.service */ "./src/app/task.service.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var src_app_auth_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/auth.service */ "./src/app/auth.service.ts");
+
 
 
 
 
 var TaskViewComponent = /** @class */ (function () {
-    function TaskViewComponent(taskService, route, router) {
+    function TaskViewComponent(taskService, route, router, authService) {
         this.taskService = taskService;
         this.route = route;
         this.router = router;
+        this.authService = authService;
     }
     TaskViewComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -817,13 +823,22 @@ var TaskViewComponent = /** @class */ (function () {
             console.log(res);
         });
     };
+    TaskViewComponent.prototype.onLogoutButtonClicked = function () {
+        this.authService.logout();
+        console.log("Logout successully !");
+        this.router.navigate(['']);
+        /*this.authService.logout().subscribe((res : any) => {
+          console.log("Logout successully !");
+          this.router.navigate(['']);
+        });*/
+    };
     TaskViewComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-task-view',
             template: __webpack_require__(/*! ./task-view.component.html */ "./src/app/pages/task-view/task-view.component.html"),
             styles: [__webpack_require__(/*! ./task-view.component.scss */ "./src/app/pages/task-view/task-view.component.scss")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_task_service__WEBPACK_IMPORTED_MODULE_2__["TaskService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_task_service__WEBPACK_IMPORTED_MODULE_2__["TaskService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"], src_app_auth_service__WEBPACK_IMPORTED_MODULE_4__["AuthService"]])
     ], TaskViewComponent);
     return TaskViewComponent;
 }());

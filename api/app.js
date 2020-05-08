@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-
+const path = require('path');
 const { mongoose } = require('./db/mongoose');
 
 const bodyParser = require('body-parser');
@@ -115,7 +115,7 @@ let verifySession = (req, res, next) => {
  * Purpose: Get all lists
  */
 app.get('/lists', authenticate, (req, res) => {
-    // We want to return an array of all the lists that belong to the authenticated user 
+    // We want to return an array of all the lists that belong to the authenticated user
     List.find({
         _userId: req.user_id
     }).then((lists) => {
@@ -279,7 +279,7 @@ app.delete('/lists/:listId/tasks/:taskId', authenticate, (req, res) => {
         // else - the list object is undefined
         return false;
     }).then((canDeleteTasks) => {
-        
+
         if (canDeleteTasks) {
             Task.findOneAndRemove({
                 _id: req.params.taskId,
@@ -385,7 +385,15 @@ let deleteTasksFromList = (_listId) => {
 
 
 
-
-app.listen(3000, () => {
-    console.log("Server is listening on port 3000");
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log("Server is listening on port "+PORT);
 })
+
+app.use(express.static(__dirname + '/public'));
+
+
+app.get('*', function(req,res) {
+  // Replace the '/dist/<to_your_project_name>/index.html'
+  res.sendFile(path.join(__dirname + '/public/index.html'));
+});

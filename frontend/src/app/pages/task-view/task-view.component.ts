@@ -65,7 +65,7 @@ export class TaskViewComponent implements OnInit {
   onLogoutButtonClicked() {
     this.authService.logout();
     console.log("Logout successully !");
-    this.router.navigate(['']);
+    this.router.navigate(['/login']);
     /*this.authService.logout().subscribe((res : any) => {
       console.log("Logout successully !");
       this.router.navigate(['']);

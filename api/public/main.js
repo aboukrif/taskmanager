@@ -250,11 +250,7 @@ var AuthService = /** @class */ (function () {
         }));
     };
     AuthService.prototype.logout = function () {
-        //this.removeSession();
-        localStorage.removeItem('x-access-token');
-        localStorage.removeItem('x-refresh-token');
-        localStorage.removeItem('user-id');
-        this.router.navigate(['/login']);
+        this.removeSession();
     };
     AuthService.prototype.getAccessToken = function () {
         return localStorage.getItem('x-access-token');
@@ -826,7 +822,7 @@ var TaskViewComponent = /** @class */ (function () {
     TaskViewComponent.prototype.onLogoutButtonClicked = function () {
         this.authService.logout();
         console.log("Logout successully !");
-        this.router.navigate(['']);
+        this.router.navigate(['/login']);
         /*this.authService.logout().subscribe((res : any) => {
           console.log("Logout successully !");
           this.router.navigate(['']);

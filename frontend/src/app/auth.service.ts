@@ -38,11 +38,7 @@ export class AuthService {
 
 
   logout() {
-    //this.removeSession();
-    localStorage.removeItem('x-access-token');
-    localStorage.removeItem('x-refresh-token');
-    localStorage.removeItem('user-id');
-    this.router.navigate(['/login']);
+    this.removeSession();
   }
 
   getAccessToken() {
